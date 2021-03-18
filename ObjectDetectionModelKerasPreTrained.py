@@ -42,13 +42,14 @@ def load_image_into_numpy_array(path):
 
 
 model = tf.keras.applications.ResNet50V2(
-    include_top=True, weights='imagenet', input_tensor=None,
-    input_shape=None, pooling=None, classes=1000,
+    include_top=True, weights='imagenet', input_tensor=None, pooling=None, classes=1000,
     classifier_activation='softmax'
 )
+model.trainable = False
 image_path = "C:\\werk\\Tensorflow\\models\\research\\object_detection\\test_images\\image1.jpg"
 
 image_np = load_image_into_numpy_array(image_path)
+print(image_np.shape)
 # image_np = tf.keras.applications.resnet_v2.preprocess_input(image_np)
 image_np = image_np / 127.5 - 1
 res = model.predict(image_np)

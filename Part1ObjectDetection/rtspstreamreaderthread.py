@@ -14,8 +14,8 @@ import logging
 import numpy as np
 import struct
 import logging
-from Config import Config
-from NonBufferedCapture import VideoCapture
+from Part1ObjectDetection.Config import Config
+from Part1ObjectDetection.NonBufferedCapture import VideoCapture
 
 
 class RTSPStreamCaptureThread(threading.Thread):

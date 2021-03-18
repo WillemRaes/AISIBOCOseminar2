@@ -9,6 +9,7 @@ logging.basicConfig(level=logging.DEBUG, format='(%(asctime)s %(threadName)-9s) 
 from Part1ObjectDetection.rtspstreamreaderthread import RTSPStreamCaptureThread
 from Part1ObjectDetection.imagepreprocessingthread import ImagePreprocessingThread
 from Part1ObjectDetection.TFLiteRuntimeThread import TFLiteRuntimeThread
+from Part1ObjectDetection.ResnetOnnxRuntimeThread import ResnetOnnxRuntimeInferenceThread
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
     p = RTSPStreamCaptureThread(name='RTSPreader', host='http://admin:admin@192.168.1.156:8080/video')
     p.start()
     logging.debug("Started rtsp_client")
-    # inf_thread = ResnetOnnxRuntimeInferenceThread(name="ONNXRuntimeObjectDetect", modelName="ResnetPretrainedObjectDetect.onnx")
+    # inf_thread = ResnetOnnxRuntimeInferenceThread(name="ONNXRuntimeObjectDetect", modelName="resnetpretrainedtest_trainablefalse.onnx")
     # inf_thread.start()
 
     inf_thread_tflite = TFLiteRuntimeThread(name="TFliteRuntime", modelName="kerasmodel.tflite")

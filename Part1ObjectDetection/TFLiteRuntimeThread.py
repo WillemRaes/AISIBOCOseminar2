@@ -14,8 +14,8 @@ import logging
 import numpy as np
 import struct
 import logging
-from Config import Config
-from resnetLabels import resnetdict
+from Part1ObjectDetection.Config import Config
+from Part1ObjectDetection.resnetLabels import resnetdict
 import tensorflow as tf
 
 
@@ -39,7 +39,7 @@ class TFLiteRuntimeThread(threading.Thread):
         # output_details = interpreter.get_output_details()
         # print(output_details)
         print("here")
-        model = tf.keras.models.load_model("./ssd_mobilenet_v2_2")
+        model = tf.keras.models.load_model("./objectResnetPretrained")
         print("model loaded")
         while True:
             try:

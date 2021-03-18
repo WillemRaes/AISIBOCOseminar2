@@ -18,8 +18,8 @@ import logging
 import numpy as np
 import struct
 import logging
-from Config import Config
-from resnetLabels import resnetdict
+from Part1ObjectDetection.Config import Config
+from Part1ObjectDetection.resnetLabels import resnetdict
 
 
 class ResnetOnnxRuntimeInferenceThread(threading.Thread):

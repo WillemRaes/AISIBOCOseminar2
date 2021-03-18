@@ -11,7 +11,7 @@ import logging
 import numpy as np
 import struct
 import logging
-from Config import Config
+from Part1ObjectDetection.Config import Config
 
 
 class ImagePreprocessingThread(threading.Thread):
