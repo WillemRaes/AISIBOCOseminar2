@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG, format='(%(asctime)s %(threadName)-9s) 
 # from httpclientthread import HttpStreamCaptureThread
 from Part1ObjectDetection.rtspstreamreaderthread import RTSPStreamCaptureThread
 from Part1ObjectDetection.imagepreprocessingthread import ImagePreprocessingThread
-from Part1ObjectDetection.TFLiteRuntimeThread import TFLiteRuntimeThread
+from Part1ObjectDetection.TFRuntimeThread import TFLiteRuntimeThread
 from Part1ObjectDetection.ResnetOnnxRuntimeThread import ResnetOnnxRuntimeInferenceThread
 
 

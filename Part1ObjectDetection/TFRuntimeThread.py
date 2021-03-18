@@ -31,16 +31,16 @@ class TFLiteRuntimeThread(threading.Thread):
     def run(self):
 
         # Load the TFLite model and allocate tensors.
-        interpreter = tf.lite.Interpreter(model_path=self.modelName)
-        interpreter.allocate_tensors()
-        counter = 0
+        # interpreter = tf.lite.Interpreter(model_path=self.modelName)
+        # interpreter.allocate_tensors()
+        # counter = 0
         # # Get input and output tensors.
-        input_details = interpreter.get_input_details()
-        output_details = interpreter.get_output_details()
+        # input_details = interpreter.get_input_details()
+        # output_details = interpreter.get_output_details()
         # print(output_details)
-
-        # model = tf.keras.models.load_model("./objectResnetPretrained")
-
+        print("here")
+        model = tf.keras.models.load_model("./objectResnetPretrained")
+        print("model loaded")
         while True:
             try:
                 if not Config.processed_im_queue.empty():
@@ -50,21 +50,16 @@ class TFLiteRuntimeThread(threading.Thread):
 
                     im_temp_fix = np.array(im_norm)[None, :, :, :]
 
-                    interpreter.set_tensor(input_details[0]['index'], im_temp_fix)
-
-                    interpreter.invoke()
-
-                    # The function `get_tensor()` returns a copy of the tensor data.
-                    # Use `tensor()` in order to get a pointer to the tensor.
-                    output_data = interpreter.get_tensor(output_details[0]['index'])
-
-                    top_pred = np.where(output_data.squeeze() > 0.5)
-
-                    for arr in top_pred:
-                        for val in arr:
-                            label = resnetdict.resnet_labels.get(int(val))
-                            print("Object: " + label + str(output_data.squeeze()[val]))
-
+                    output_data = model.predict(im_temp_fix)
+                    print(tf.keras.applications.resnet_v2.decode_predictions(
+                        output_data, top=5))
+                    # top_pred = np.where(output_data.squeeze() > 0.5)
+                    #
+                    # for arr in top_pred:
+                    #     for val in arr:
+                    #         label = resnetdict.resnet_labels.get(int(val))
+                    #         print("Object: " + label + str(output_data.squeeze()[val]))
+                    #
                     counter += 1
                     if counter % 100 == 0:
                         time_diff = time.time() - start_time
