@@ -23,9 +23,11 @@ from Part1ObjectDetection.resnetLabels import resnetdict
 
 
 class ResnetOnnxRuntimeInferenceThread(threading.Thread):
-    def __init__(self, group=None, target=None, name=None, modelName="Resnet.onnx",
+    def __init__(self, group=None, target=None, name=None, modelName="Resnet.onnx", classifierThreshold=0.4, predictionBatchSize=5,
                  args=(), kwargs=None, verbose=None):
         super(ResnetOnnxRuntimeInferenceThread, self).__init__()
+        self.predictionBatchSize = predictionBatchSize
+        self.classifierThreshold = classifierThreshold
         self.target = target
         self.name = name
         self.modelName = modelName
@@ -49,6 +51,8 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
         output_type = sess.get_outputs()[0].type
         print("output type", output_type)
 
+
+        prediction_batch = []
         input_name = sess.get_inputs()[0].name
         start_time = time.time()
         counter = 0
@@ -57,29 +61,34 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
                 if not Config.processed_im_queue.empty():
                     im = Config.processed_im_queue.get()
                     # im.show()
-                    im_temp_fix = np.array(im)[None, :, :, :]
+                    im_temp_fix = np.array(im) # [None, :, :, :]  # only needed when 1 shot prediction
 
                     # Resnet specific preprocessing requires input in [-1 1]
+                    # better to make this part of the model
                     im_temp_fix = im_temp_fix / 127.5 - 1
 
-                    # do prediction
-                    pred_onx = sess.run([label_name], {input_name: np.array(im_temp_fix, dtype=np.float32)})[0]
+                    prediction_batch.append(im_temp_fix)
+                    if len(prediction_batch) == self.predictionBatchSize:
+                        # do prediction
+                        pred_onx = sess.run([label_name], {input_name: np.array(prediction_batch, dtype=np.float32)})[0]
+                        # print(pred_onx.shape)
+                        # Get class labels without using decode in tf.keras api (ONNX goal to remove dependencies)
+                        for output in pred_onx:
+                            top_pred = np.where(output.squeeze() > self.classifierThreshold)
 
-                    # Get class labels without using decode in tf.keras api (ONNX goal to remove dependencies)
-                    top_pred = np.where(pred_onx.squeeze() > 0.5)
+                            for arr in top_pred:
+                                for val in arr:
+                                    label = resnetdict.resnet_labels.get(int(val))
+                                    print("Object: " + label + str(output.squeeze()[val]))
 
-                    for arr in top_pred:
-                        for val in arr:
-                            label = resnetdict.resnet_labels.get(int(val))
-                            print("Object: " + label + str(pred_onx.squeeze()[val]))
-
-                    counter += 1
-                    if counter % 100 == 0:
-                        time_diff = time.time() - start_time
-                        print("Frames per second: ", int(counter / time_diff))
-                        start_time = time.time()
-                        counter = 0
-                    time.sleep(0.001)
+                        prediction_batch = []
+                        counter += self.predictionBatchSize
+                        if counter % 50 == 0:
+                            time_diff = time.time() - start_time
+                            print("Frames per second: ", int(counter / time_diff))
+                            start_time = time.time()
+                            counter = 0
+                        time.sleep(0.001)
 
             except Exception as e:
                 logging.debug(str(e))

@@ -48,7 +48,7 @@ class RTSPStreamCaptureThread(threading.Thread):
                 time.sleep(Config.approx_update_rate)
 
             except Exception as e:
-                logging.debug(e)
-                pass
+                logging.debug(str(e))
+
 
         return

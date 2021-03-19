@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG, format='(%(asctime)s %(threadName)-9s) 
 # from httpclientthread import HttpStreamCaptureThread
 from Part1ObjectDetection.rtspstreamreaderthread import RTSPStreamCaptureThread
 from Part1ObjectDetection.imagepreprocessingthread import ImagePreprocessingThread
-# from Part1ObjectDetection.TFLiteRuntimeThread import TFLiteRuntimeThread
+from Part1ObjectDetection.TFLiteRuntimeThread import TFLiteRuntimeThread
 from Part1ObjectDetection.ResnetOnnxRuntimeThread import ResnetOnnxRuntimeInferenceThread
 from Part1ObjectDetection.TFRuntimeThread import TFRuntimeThread
 
@@ -21,14 +21,14 @@ def main():
     p = RTSPStreamCaptureThread(name='RTSPreader', host='http://admin:admin@192.168.1.156:8080/video')
     p.start()
     logging.debug("Started rtsp_client")
-    # inf_thread = ResnetOnnxRuntimeInferenceThread(name="ONNXRuntimeObjectDetect", modelName="resnetpretrainedtest_trainablefalse.onnx")
+    # inf_thread = ResnetOnnxRuntimeInferenceThread(name="ONNXRuntimeObjectDetect", modelName="./Part1ObjectDetection/ResnetPretrainedObjectDetect.onnx", predictionBatchSize=10, classifierThreshold=0.4)
     # inf_thread.start()
 
-    # inf_thread_tflite = TFLiteRuntimeThread(name="TFliteRuntime", modelName="./Part1ObjectDetection/kerasmodel.tflite")
-    # inf_thread_tflite.start()
+    inf_thread_tflite = TFLiteRuntimeThread(name="TFliteRuntime", modelName="./Part1ObjectDetection/resnet_quant.tflite")
+    inf_thread_tflite.start()
 
-    inf_thread_tf = TFRuntimeThread(name="TFRuntime", modelName="./Part1ObjectDetection/objectResnetPretrained", predictionBatchSize=10, classifierThreshold=0.4)
-    inf_thread_tf.start()
+    # inf_thread_tf = TFRuntimeThread(name="TFRuntime", modelName="./Part1ObjectDetection/objectResnetPretrained", predictionBatchSize=10, classifierThreshold=0.4)
+    # inf_thread_tf.start()
 
 if __name__ == '__main__':
     main()
