@@ -204,6 +204,7 @@ while True:
             # cv2.imshow("With boxes", image_np_with_detections[0])
             # cv2.waitKey(1)
             # plt.savefig("beach_obje.png")
-    except:
+    except Exception as e:
+        print(e)
         out and out.release()
         cv2.destroyAllWindows()
