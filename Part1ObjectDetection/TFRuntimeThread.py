@@ -19,28 +19,26 @@ from Part1ObjectDetection.resnetLabels import resnetdict
 import tensorflow as tf
 
 
-class TFLiteRuntimeThread(threading.Thread):
-    def __init__(self, group=None, target=None, name=None, modelName="Resnet.tflite",
+class TFRuntimeThread(threading.Thread):
+    def __init__(self, group=None, target=None, name=None, modelName="saved_model", classifierThreshold=0.4, predictionBatchSize=5,
                  args=(), kwargs=None, verbose=None):
-        super(TFLiteRuntimeThread, self).__init__()
+        super(TFRuntimeThread, self).__init__()
+        self.classifierThreshold = classifierThreshold
+        self.predictionBatchSize = predictionBatchSize
         self.target = target
         self.name = name
         self.modelName = modelName
+
         return
 
     def run(self):
 
-        # Load the TFLite model and allocate tensors.
-        # interpreter = tf.lite.Interpreter(model_path=self.modelName)
-        # interpreter.allocate_tensors()
-        # counter = 0
-        # # Get input and output tensors.
-        # input_details = interpreter.get_input_details()
-        # output_details = interpreter.get_output_details()
-        # print(output_details)
-        print("here")
-        model = tf.keras.models.load_model("./objectResnetPretrained")
+        counter = 0
+        prediction_batch = []
+
+        model = tf.keras.models.load_model(self.modelName)
         print("model loaded")
+        start_time = time.time()
         while True:
             try:
                 if not Config.processed_im_queue.empty():
@@ -48,29 +46,32 @@ class TFLiteRuntimeThread(threading.Thread):
                     # im.show()
                     im_norm = im / 127.5 - 1
 
-                    im_temp_fix = np.array(im_norm)[None, :, :, :]
+                    im_temp_fix = np.array(im_norm)  # [None, :, :, :] # needed for single image inference
+                    prediction_batch.append(im_temp_fix)
+                    if len(prediction_batch) == self.predictionBatchSize:
 
-                    output_data = model.predict(im_temp_fix)
-                    print(tf.keras.applications.resnet_v2.decode_predictions(
-                        output_data, top=5))
-                    # top_pred = np.where(output_data.squeeze() > 0.5)
-                    #
-                    # for arr in top_pred:
-                    #     for val in arr:
-                    #         label = resnetdict.resnet_labels.get(int(val))
-                    #         print("Object: " + label + str(output_data.squeeze()[val]))
-                    #
-                    counter += 1
-                    if counter % 100 == 0:
-                        time_diff = time.time() - start_time
-                        print("Frames per second: ", int(counter / time_diff))
-                        start_time = time.time()
-                        counter = 0
-                    time.sleep(0.001)
+                        output_data = model.predict(np.array(prediction_batch))
+                        for output in output_data:
+                            # print(tf.keras.applications.resnet_v2.decode_predictions(
+                            #     output, top=5))
+                            top_pred = np.where(output.squeeze() > self.classifierThreshold)
+                            for arr in top_pred:
+                                for val in arr:
+                                    label = resnetdict.resnet_labels.get(int(val))
+                                    print("Object: " + label + str(output.squeeze()[val]))
+
+                        prediction_batch = []
+                        counter += self.predictionBatchSize
+                        if counter % 50 == 0:
+                            time_diff = time.time() - start_time
+                            print("Frames per second: ", int(counter / time_diff))
+                            start_time = time.time()
+                            counter = 0
+
 
             except Exception as e:
                 logging.debug(str(e))
-                pass
+
 
 
 

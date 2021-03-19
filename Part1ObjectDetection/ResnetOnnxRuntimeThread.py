@@ -83,7 +83,7 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
 
             except Exception as e:
                 logging.debug(str(e))
-                pass
+
 
 
 

@@ -16,7 +16,7 @@ import struct
 import logging
 from Part1ObjectDetection.Config import Config
 from Part1ObjectDetection.resnetLabels import resnetdict
-import tensorflow as tf
+import tflite_runtime.interpreter as tflite
 
 
 class TFLiteRuntimeThread(threading.Thread):
@@ -31,13 +31,13 @@ class TFLiteRuntimeThread(threading.Thread):
     def run(self):
 
         # Load the TFLite model and allocate tensors.
-        interpreter = tf.lite.Interpreter(model_path=self.modelName)
+        interpreter = tflite.Interpreter(model_path=self.modelName)
         interpreter.allocate_tensors()
         counter = 0
         # # Get input and output tensors.
         input_details = interpreter.get_input_details()
         output_details = interpreter.get_output_details()
-        # print(output_details)
+        print(output_details)
 
         # model = tf.keras.models.load_model("./objectResnetPretrained")
 
@@ -48,7 +48,7 @@ class TFLiteRuntimeThread(threading.Thread):
                     # im.show()
                     im_norm = im / 127.5 - 1
 
-                    im_temp_fix = np.array(im_norm)[None, :, :, :]
+                    im_temp_fix = np.array(im_norm, dtype=np.float32)[None, :, :, :]
 
                     interpreter.set_tensor(input_details[0]['index'], im_temp_fix)
 
@@ -75,7 +75,7 @@ class TFLiteRuntimeThread(threading.Thread):
 
             except Exception as e:
                 logging.debug(str(e))
-                pass
+
 
 
 
