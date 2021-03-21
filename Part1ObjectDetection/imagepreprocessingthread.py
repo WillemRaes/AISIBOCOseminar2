@@ -1,13 +1,8 @@
 # import required libraries
 import cv2
-import http
-import requests
-from PIL import Image
-from io import BytesIO
+
 import threading
 import time
-import logging
-
 import numpy as np
 import struct
 import logging

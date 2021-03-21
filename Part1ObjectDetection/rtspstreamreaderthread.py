@@ -1,13 +1,7 @@
 # 192.168.137.151:81
 # host = "http://192.168.1.191:8080"
 # host = "rtsp://192.168.1.191:554/11"
-# import required libraries
-from vidgear.gears import NetGear
-import cv2
-import http
-import requests
-from PIL import Image
-from io import BytesIO
+
 import threading
 import time
 import logging

@@ -1,7 +1,8 @@
 import queue
 import numpy as np
 
-class Config:
+
+class ConfigPart2:
 
     im_queue = queue.Queue(maxsize=5)
     processed_im_queue = queue.Queue(maxsize=5)

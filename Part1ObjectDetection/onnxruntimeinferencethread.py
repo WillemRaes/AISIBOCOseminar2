@@ -6,13 +6,7 @@ python -m tf2onnx.convert  --input /Path/to/resnet50.pb --inputs input_1:0 --out
 """
 
 import onnxruntime as rt
-import cv2
-import http
-import requests
-from PIL import Image
-from io import BytesIO
 import threading
-import time
 import time
 import logging
 import numpy as np
