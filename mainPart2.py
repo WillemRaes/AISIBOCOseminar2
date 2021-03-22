@@ -68,8 +68,8 @@ model = tf.saved_model.load("./saved_models/CenternetObjectDetectionBoxes")
 print("Model Loaded")
 
 # create minimal socket connection to server screen
-HOST = "127.0.0.1"
-# HOST = '192.168.1.135'  # The server's hostname or IP address
+# HOST = "127.0.0.1"
+HOST = '192.168.1.135'  # The server's hostname or IP address
 PORT = 65432  # The port used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
@@ -114,7 +114,10 @@ while True:
             to_send = [image_np_with_detections, result]
 
             # Send inference result and bounding box to screen over network socket
-            s.sendall(msgpack.packb(to_send, use_bin_type=True))
+            bin_buff = msgpack.packb(to_send)
+            print(len(bin_buff))
+            s.sendall(b'AA')
+            s.sendall(msgpack.packb(to_send))
 
     except Exception as e:
         print(e)

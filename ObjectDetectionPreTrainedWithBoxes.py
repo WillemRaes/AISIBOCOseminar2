@@ -1,24 +1,19 @@
-import os
-import pathlib
-
-import io
-import scipy.misc
 import numpy as np
 from six import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 from six.moves.urllib.request import urlopen
-import PIL
 import tensorflow as tf
+
 import tensorflow_hub as hub
+
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as viz_utils
-import threading
-from tensorflowstuff.threadedhttpstreamcapture.rtspstreamreaderthread import RTSPStreamCaptureThread
-from tensorflowstuff.threadedhttpstreamcapture.imagepreprocessingthread import ImagePreprocessingThread
-from tensorflowstuff.threadedhttpstreamcapture.Config import Config
+from Part1ObjectDetection.rtspstreamreaderthread import RTSPStreamCaptureThread
+from Part1ObjectDetection.imagepreprocessingthread import ImagePreprocessingThread
+from Part1ObjectDetection.Config import Config
 import cv2
 
-c = ImagePreprocessingThread(name='Imagepreprocessing')
+c = ImagePreprocessingThread(name='Imagepreprocessing', image_size=(512, 512))
 c.start()
 p = RTSPStreamCaptureThread(name='RTSPreader', host='http://admin:admin@192.168.1.156:8080/video')
 p.start()
@@ -126,22 +121,23 @@ COCO17_HUMAN_POSE_KEYPOINTS = [(0, 1),
                                (12, 14),
                                (14, 16)]
 
-PATH_TO_LABELS = './tensorflowstuff/mscoco_label_map.pbtxt'
+PATH_TO_LABELS = './Part2ObjectDetectionBoxes/mscoco_label_map.pbtxt'
 category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
-model_display_name = 'CenterNet Resnet50 V2 512x512'
-model_handle = ALL_MODELS[model_display_name]
-
-print('Selected model:' + model_display_name)
-print('Model Handle at TensorFlow Hub: {}'.format(model_handle))
-
-print('loading model...')
-hub_model = hub.load(model_handle)
-print('model loaded!')
-tf.saved_model.save(hub_model, "./tensorflowstuff/saved_models/CenternetObjectDetectionBoxes")
+# model_display_name = 'CenterNet Resnet50 V2 512x512'
+# model_handle = ALL_MODELS[model_display_name]
+#
+# print('Selected model:' + model_display_name)
+# print('Model Handle at TensorFlow Hub: {}'.format(model_handle))
+#
+# print('loading model...')
+# hub_model = hub.load(model_handle)
+# print('model loaded!')
+# tf.saved_model.save(hub_model, "./saved_models/CenternetObjectDetectionBoxes")
+hub_model = tf.saved_model.load("./saved_models/CenternetObjectDetectionBoxes")
 
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-out = cv2.VideoWriter("testvideo3.avi", fourcc, 20, (512, 512))
+out = cv2.VideoWriter("demopart2_desktop_1.avi", fourcc, 20, (512, 512))
 
 
 while True:
@@ -201,8 +197,8 @@ while True:
                 keypoint_scores=keypoint_scores,
                 keypoint_edges=COCO17_HUMAN_POSE_KEYPOINTS)
             out.write(image_np_with_detections[0])
-            # cv2.imshow("With boxes", image_np_with_detections[0])
-            # cv2.waitKey(1)
+            cv2.imshow("With boxes", image_np_with_detections[0])
+            cv2.waitKey(1)
             # plt.savefig("beach_obje.png")
     except Exception as e:
         print(e)

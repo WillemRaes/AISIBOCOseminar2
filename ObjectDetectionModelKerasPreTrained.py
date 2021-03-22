@@ -41,63 +41,36 @@ def load_image_into_numpy_array(path):
         (1, im_height, im_width, 3)).astype(np.uint8)  # removed prefix 1 from shape
 
 
+# Load a SoTa neural network model backbone for object detection
 model = tf.keras.applications.ResNet50V2(
     include_top=True, weights='imagenet', input_tensor=None, pooling=None, classes=1000,
     classifier_activation='softmax'
 )
+# In this demo we will not do any fine tuning or transfer learning so we freeze the model parameters immediately
 model.trainable = False
-image_path = "C:\\werk\\Tensorflow\\models\\research\\object_detection\\test_images\\image1.jpg"
 
+# We use a stock image to test the model
+image_path = "C:\\werk\\Tensorflow\\models\\research\\object_detection\\test_images\\image1.jpg"
 image_np = load_image_into_numpy_array(image_path)
 print(image_np.shape)
+
+# Library utility function to preprocess an image for inference
 # image_np = tf.keras.applications.resnet_v2.preprocess_input(image_np)
+
+# Manual preprocessing on test image for inference
 image_np = image_np / 127.5 - 1
+
+# Run inference on the test image
 res = model.predict(image_np)
+
+# Get the Top 5 predictions
 print(tf.keras.applications.resnet_v2.decode_predictions(
     res, top=5
 ))
+
+# Save the model to custom Tensorflow saved model format
 model.save('saved_models/objectResnetPretrained')
 
-saved_model_dir = "./saved_models/objectResnetPretrained"
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
-
-# # Save the model.
-# with open('Part1ObjectDetection/kerasmodel.tflite', 'wb') as f:
-#   f.write(tflite_model)
-
-
-# tflite quantizer
-# converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
-# # converter.optimizations = [tf.lite.Optimize.DEFAULT]
-# # converter.inference_input_type = tf.uint8  # or tf.uint8
-# # converter.inference_output_type = tf.uint8
-# tflite_quant_model = converter.convert()
-#
-# with open('Part1ObjectDetection/ResnetPretrained_quant.tflite', 'wb') as f:
-#   f.write(tflite_quant_model)
-#
-# # tflite_path = 'ResnetPretrained_quant.tflite'
-# # onnx_path = 'ResnetPretrained_quant.onnx'
-# #
-# # tflite2onnx.convert(tflite_path, onnx_path)
-#
-# # Load the TFLite model and allocate tensors.
-# interpreter = tf.lite.Interpreter(model_path="Part1ObjectDetection/ResnetPretrained_quant.tflite")
-# interpreter.allocate_tensors()
-#
-# # Get input and output tensors.
-# input_details = interpreter.get_input_details()
-# output_details = interpreter.get_output_details()
-#
-# # Test the model on random input data.
-# input_shape = input_details[0]['shape']
-# input_data = np.array(image_np, dtype=np.float32)
-# interpreter.set_tensor(input_details[0]['index'], input_data)
-#
-# interpreter.invoke()
-#
-# # The function `get_tensor()` returns a copy of the tensor data.
-# # Use `tensor()` in order to get a pointer to the tensor.
-# output_data = interpreter.get_tensor(output_details[0]['index'])
-# print(output_data)
+# saved_model_dir = "./saved_models/objectResnetPretrained"
+# converter = tf.lite.TFLiteConverter.from_keras_model(model)
+# tflite_model = converter.convert()

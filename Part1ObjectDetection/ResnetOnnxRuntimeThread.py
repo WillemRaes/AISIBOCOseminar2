@@ -6,11 +6,6 @@ This thread is specific for resnet architecture family
 """
 
 import onnxruntime as rt
-import cv2
-import http
-import requests
-from PIL import Image
-from io import BytesIO
 import threading
 import time
 import time
@@ -51,7 +46,6 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
         output_type = sess.get_outputs()[0].type
         print("output type", output_type)
 
-
         prediction_batch = []
         input_name = sess.get_inputs()[0].name
         start_time = time.time()
@@ -60,8 +54,8 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
             try:
                 if not Config.processed_im_queue.empty():
                     im = Config.processed_im_queue.get()
-                    # im.show()
-                    im_temp_fix = np.array(im) # [None, :, :, :]  # only needed when 1 shot prediction
+
+                    im_temp_fix = np.array(im)  # [None, :, :, :]  # only needed when 1 shot prediction
 
                     # Resnet specific preprocessing requires input in [-1 1]
                     # better to make this part of the model
@@ -69,9 +63,9 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
 
                     prediction_batch.append(im_temp_fix)
                     if len(prediction_batch) == self.predictionBatchSize:
-                        # do prediction
+                        # do prediction on a batch of images
                         pred_onx = sess.run([label_name], {input_name: np.array(prediction_batch, dtype=np.float32)})[0]
-                        # print(pred_onx.shape)
+
                         # Get class labels without using decode in tf.keras api (ONNX goal to remove dependencies)
                         for output in pred_onx:
                             top_pred = np.where(output.squeeze() > self.classifierThreshold)
@@ -92,9 +86,6 @@ class ResnetOnnxRuntimeInferenceThread(threading.Thread):
 
             except Exception as e:
                 logging.debug(str(e))
-
-
-
 
         return
 

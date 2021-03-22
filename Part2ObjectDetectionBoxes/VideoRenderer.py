@@ -45,7 +45,7 @@ COCO17_HUMAN_POSE_KEYPOINTS = [(0, 1),
 
 # Create a simple video logger
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-out = cv2.VideoWriter("objectdetectionvideo" + str(time.time()) + ".avi", fourcc, 10, (512, 512))
+out = cv2.VideoWriter("objectdetectionvideo" + str(time.time()) + "demopart2.avi", fourcc, 15, (512, 512))
 
 # Path to the labels for objectdetection which in this case is mscoco
 PATH_TO_LABELS = 'mscoco_label_map.pbtxt'
@@ -62,9 +62,15 @@ conn, addr = s.accept()
 
 print("Connected")
 while True:
-    data = None
+    data = bytes()
+    bootstrap = None
     try:
-        data = conn.recv(2 ** 20)
+        bootstrap = conn.recv(2)
+        if bootstrap == b'AA':
+
+            while len(data) < 789126:
+                data += conn.recv(4096)
+            bootstrap = None
     except Exception as e:
         print(e)
     try:
