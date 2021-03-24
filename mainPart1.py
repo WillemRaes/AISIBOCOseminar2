@@ -18,7 +18,10 @@ def main():
     c = ImagePreprocessingThread(name='Imagepreprocessing', image_size=(224, 224))
     c.start()
     logging.debug("Started Consumerthread")
+
+    # Any IP camera can be used
     # p = RTSPStreamCaptureThread(name='RTSPreader', host='rtsp://admin:pass@192.168.1.191:554/11')
+    # Set a user and password in the app (IP Webcam)
     p = RTSPStreamCaptureThread(name='RTSPreader', host='http://admin:admin@192.168.1.156:8080/video')
     p.start()
     logging.debug("Started rtsp_client")
