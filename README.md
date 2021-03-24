@@ -17,3 +17,4 @@ Model Conversion to ONNX in commandline:
 \path\to\python\python.exe -m tf2onnx.convert --saved-model \path\to\model\saved_models\objectResnetPretrained 
 --output ResnetPretrained.onnx --opset 12 --verbose
 
+Socket for transmitting inference result from Jetson Nano to desktop (Nano is headless) should be in separate thread
