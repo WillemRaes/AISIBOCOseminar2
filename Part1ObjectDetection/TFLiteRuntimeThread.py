@@ -1,7 +1,7 @@
 """
 This thread loads the ONNX runtime for inference with the saved model
 The standard tf2onnx cmd tool can be used for this
-python -m tf2onnx.convert  --input /Path/to/resnet50.pb --inputs input_1:0 --outputs probs/Softmax:0 --output resnet50.onnx
+python -m tf2onnx.convert --saved model /Path/to/savedmodel --output resnet50.onnx
 This thread is specific for resnet architecture family
 """
 import requests

@@ -67,6 +67,7 @@ print(tf.keras.applications.resnet_v2.decode_predictions(
 # tflite_model = converter.convert()
 run_debug = True
 if run_debug:
+    # Message queues are global for the moment better to pass them as argument
     c = ImagePreprocessingThread(name='Imagepreprocessing', image_size=(224, 224))
     c.start()
     p = RTSPStreamCaptureThread(name='RTSPreader', host='http://admin:admin@192.168.1.156:8080/video')
@@ -88,13 +89,13 @@ if run_debug:
                 image_np = im
                 print(image_np.shape)
                 image_np = np.array(im)[None, :, :, :]
-                # Flip horizontally
+
                 print(image_np.shape)
                 print(image_np[0].shape)
                 cv2.imshow('image', image_np[0])
                 cv2.waitKey(1)
 
-                # plt.show()
+
                 image_np = image_np / 127.5 - 1
                 # running inference
                 results = model.predict(image_np)
