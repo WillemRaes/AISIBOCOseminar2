@@ -12,6 +12,7 @@ These are converted to Tensorflow saved model format, ONNX, Tensorflow Lite.
 - tf.keras.applications model is adaptable
 - The chosen Tensorflow Hub model is not adaptable (User object)
 - The message queues between threads are global
+- Object detection api (https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#tensorflow-object-detection-api-installation)
 
 Model Conversion to ONNX in commandline:
 \path\to\python\python.exe -m tf2onnx.convert --saved-model \path\to\model\saved_models\objectResnetPretrained 
