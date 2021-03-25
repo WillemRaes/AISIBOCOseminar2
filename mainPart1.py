@@ -1,4 +1,18 @@
-"""
+""" ____  ____      _    __  __  ____ ___
+|  _ \|  _ \    / \  |  \/  |/ ___/ _ \
+| | | | |_) |  / _ \ | |\/| | |  | | | |
+| |_| |  _ <  / ___ \| |  | | |__| |_| |
+|____/|_| \_\/_/   \_\_|  |_|\____\___/
+                          research group
+                            dramco.be/
+
+ KU Leuven - Technology Campus Gent,
+ Gebroeders De Smetstraat 1,
+ B-9000 Gent, Belgium
+
+     Author: Willem Raes
+     Version: 1.0
+
 Main file where threads are started
 
 """
@@ -11,6 +25,8 @@ from Part1ObjectDetection.rtspstreamreaderthread import RTSPStreamCaptureThread
 from Part1ObjectDetection.imagepreprocessingthread import ImagePreprocessingThread
 # from Part1ObjectDetection.TFLiteRuntimeThread import TFLiteRuntimeThread
 from Part1ObjectDetection.ResnetOnnxRuntimeThread import ResnetOnnxRuntimeInferenceThread
+
+
 # from Part1ObjectDetection.TFRuntimeThread import TFRuntimeThread
 
 
