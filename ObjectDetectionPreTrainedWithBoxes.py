@@ -124,16 +124,7 @@ COCO17_HUMAN_POSE_KEYPOINTS = [(0, 1),
 PATH_TO_LABELS = './Part2ObjectDetectionBoxes/mscoco_label_map.pbtxt'
 category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
-# model_display_name = 'CenterNet Resnet50 V2 512x512'
-# model_handle = ALL_MODELS[model_display_name]
-#
-# print('Selected model:' + model_display_name)
-# print('Model Handle at TensorFlow Hub: {}'.format(model_handle))
-#
-# print('loading model...')
-# hub_model = hub.load(model_handle)
-# print('model loaded!')
-# tf.saved_model.save(hub_model, "./saved_models/CenternetObjectDetectionBoxes")
+
 hub_model = tf.saved_model.load("./saved_models/CenternetObjectDetectionBoxes")
 
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')

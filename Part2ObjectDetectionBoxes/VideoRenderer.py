@@ -67,7 +67,7 @@ while True:
     try:
         bootstrap = conn.recv(2)
         if bootstrap == b'AA':
-
+            # hard coded packet length put length in first 4 bytes of packet instead
             while len(data) < 789126:
                 data += conn.recv(4096)
             bootstrap = None
