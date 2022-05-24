@@ -1,0 +1,111 @@
+absl-py @ file:///tmp/build/80754af9/absl-py_1607439979954/work
+aiohttp @ file:///C:/ci/aiohttp_1614361024229/work
+appdirs==1.4.4
+astor==0.8.1
+astunparse==1.6.3
+async-timeout==3.0.1
+attrs @ file:///tmp/build/80754af9/attrs_1604765588209/work
+backcall==0.2.0
+blinker==1.4
+brotlipy==0.7.0
+cachetools @ file:///tmp/build/80754af9/cachetools_1611600262290/work
+certifi==2020.12.5
+cffi @ file:///C:/ci/cffi_1613247279197/work
+chardet @ file:///C:/ci/chardet_1605303225733/work
+cityscapesScripts==2.2.0
+click @ file:///home/linux1/recipes/ci/click_1610990599742/work
+colorama==0.4.4
+coloredlogs==15.0
+coverage @ file:///C:/ci/coverage_1614615074147/work
+cryptography==2.9.2
+cycler==0.10.0
+Cython @ file:///C:/ci/cython_1614014958194/work
+decorator==4.4.2
+dill @ file:///tmp/build/80754af9/dill_1605066453875/work
+efficientnet==1.0.0
+flatbuffers==1.12
+future==0.18.2
+gast @ file:///tmp/build/80754af9/gast_1597433534803/work
+google-auth @ file:///tmp/build/80754af9/google-auth_1614883971544/work
+google-auth-oauthlib==0.4.2
+google-pasta==0.2.0
+googleapis-common-protos @ file:///C:/ci/googleapis-common-protos-feedstock_1613726516812/work
+grpcio @ file:///C:/ci/grpcio_1614884412260/work
+h5py==2.10.0
+humanfriendly==9.1
+idna @ file:///home/linux1/recipes/ci/idna_1610986105248/work
+image-classifiers==1.0.0
+imageio==2.9.0
+importlib-metadata @ file:///tmp/build/80754af9/importlib-metadata_1602276842396/work
+importlib-resources==5.1.2
+ipython==7.21.0
+ipython-genutils==0.2.0
+jedi==0.18.0
+joblib==1.0.1
+Keras @ file:///tmp/build/80754af9/keras_split_1593112142734/work
+Keras-Applications==1.0.8
+Keras-Preprocessing @ file:///home/conda/feedstock_root/build_artifacts/keras-preprocessing_1610713559828/work
+kiwisolver==1.3.1
+Markdown @ file:///C:/ci/markdown_1614364121613/work
+matplotlib==3.3.4
+mkl-fft==1.3.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+multidict @ file:///C:/ci/multidict_1607362065515/work
+networkx==2.5
+numpy==1.19.5
+oauthlib==3.1.0
+opencv-python==4.5.1.48
+opt-einsum==3.3.0
+parso==0.8.1
+pickleshare==0.7.5
+Pillow==8.1.1
+promise @ file:///C:/ci/promise_1614011884282/work
+prompt-toolkit==3.0.16
+protobuf==3.15.3
+psutil @ file:///C:/ci/psutil_1612298324802/work
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+Pygments==2.8.0
+PyJWT @ file:///C:/ci/pyjwt_1610893382614/work
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
+pyparsing==2.4.7
+pyquaternion==0.9.9
+pyreadline==2.1
+PySocks @ file:///C:/ci/pysocks_1605287845585/work
+python-dateutil==2.8.1
+PyWavelets==1.1.1
+PyYAML==5.4.1
+requests @ file:///tmp/build/80754af9/requests_1608241421344/work
+requests-oauthlib==1.3.0
+rsa @ file:///tmp/build/80754af9/rsa_1614366226499/work
+scikit-image==0.18.1
+scikit-learn==0.24.1
+scipy==1.6.1
+segmentation-models==1.0.1
+six @ file:///C:/ci/six_1605187374963/work
+sklearn==0.0
+tabulate==0.8.9
+tensorboard @ file:///home/conda/feedstock_root/build_artifacts/tensorboard_1610699261066/work/tensorboard-2.4.1-py3-none-any.whl
+tensorboard-plugin-wit==1.6.0
+tensorflow==2.4.1
+tensorflow-estimator @ file:///home/conda/feedstock_root/build_artifacts/tensorflow-estimator_1610655765755/work/tensorflow_estimator-2.4.0-py2.py3-none-any.whl
+tensorflow-gpu==2.4.1
+tensorflow-hub @ file:///home/conda/feedstock_root/build_artifacts/tensorflow-hub_1598286932655/work/wheel_dir/tensorflow_hub-0.9.0-py2.py3-none-any.whl
+tensorflow-metadata==0.14.0
+termcolor==1.1.0
+threadpoolctl==2.1.0
+tifffile==2021.3.17
+tqdm==4.58.0
+traitlets==5.0.5
+typing==3.7.4.3
+typing-extensions @ file:///tmp/build/80754af9/typing_extensions_1611751222202/work
+urllib3 @ file:///tmp/build/80754af9/urllib3_1611694770489/work
+wcwidth==0.2.5
+Werkzeug @ file:///home/ktietz/src/ci/werkzeug_1611932622770/work
+win-inet-pton @ file:///C:/ci/win_inet_pton_1605306167264/work
+wincertstore==0.2
+wrapt==1.12.1
+yarl @ file:///C:/ci/yarl_1606940076464/work
+zipp @ file:///tmp/build/80754af9/zipp_1604001098328/work
